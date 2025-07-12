@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fish Feed System | Login</title>
+        <link rel="icon" href="images/fish_2271030.png" type="image/png">
+        
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        <style>
+            .login-with-google-btn {
+                transition: background-color .3s, box-shadow .3s;
+                padding: 12px 16px 12px 42px;
+                border: none;
+                border-radius: 3px;
+                box-shadow: 0 -1px 0 rgba(0, 0, 0, .04), 0 1px 1px rgba(0, 0, 0, .25);
+                color: #757575;
+                font-size: 14px;
+                font-weight: 500;
+                font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+                background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTcuNiA5LjJsLS4xLTEuOEg5djMuNGg0LjhDMTMuNiAxMiAxMyAxMyAxMiAxMy42djIuMmgzYTguOCA4LjggMCAwIDAgMi42LTYuNnoiIGZpbGw9IiM0Mjg1RjQiIGZpbGwtcnVsZT0ibm9uemVybyIvPjxwYXRoIGQ9Ik05IDE4YzIuNCAwIDQuNS0uOCA2LTIuMmwtMy0yLjJhNS40IDUuNCAwIDAgMS04LTIuOUgxVjEzYTkgOSAwIDAgMCA4IDV6IiBmaWxsPSIjMzRBODUzIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNNCAxMC43YTUuNCA1LjQgMCAwIDEgMC0zLjRWNUgxYTkgOSAwIDAgMCAwIDhsMy0yLjN6IiBmaWxsPSIjRkJCQzA1IiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48cGF0aCBkPSJNOSAzLjZjMS4zIDAgMi41LjQgMy40IDEuM0wxNSAyLjNBOSA5IDAgMCAwIDEgNWwzIDIuNGE1LjQgNS40IDAgMCAxIDUtMy43eiIgZmlsbD0iI0VBNDMzNSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHBhdGggZD0iTTAgMGgxOHYxOEgweiIvPjwvZz48L3N2Zz4=);
+                background-color: white;
+                background-repeat: no-repeat;
+                background-position: 12px 11px;
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
+            
+            #loginStatus {
+                min-height: 20px;
+                margin-top: 10px;
+                color: #e76f51;
+                font-size: 0.9rem;
+                text-align: center;
+            }
+            
+            .loading-spinner {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 3px solid rgba(255,255,255,0.3);
+                border-radius: 50%;
+                border-top-color: #fff;
+                animation: spin 1s ease-in-out infinite;
+                margin-right: 8px;
+            }
+            
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+            
+            .password-toggle {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                color: #6c757d;
+            }
+            
+            .password-container {
+                position: relative;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <main>
+            <header class="site-header">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-lg-12 col-12 d-flex">
+                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
+                                <i class="fa fa-fish-fins"></i>
+                                <span>Fish Feeding System</span>
+                            </a>
+                            <ul class="social-icon d-flex justify-content-center align-items-center mx-auto">
+                                <span class="text-white me-4 d-none d-lg-block">How to get Involved</span>
+                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-instagram"></a></li>
+                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-github"></a></li>
+                            </ul>
+                            <div>
+                                <a href="#" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                                    Subscribe Us <i class="bi-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                            <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+                <div class="offcanvas-header">                    
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                
+                <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="index.html">Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="source.html">Source Code</a>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact Us</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form action="#" method="get" class="custom-form mt-lg-4 mt-2" role="form">
+                                <h2 class="modal-title" id="subscribeModalLabel">Get New Emails</h2>
+
+                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="you@email.lk" required="">
+
+                                <button type="submit" class="form-control">Subscribe</button>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer justify-content-center">
+                            <p>By signing up, you agree to our <a href="#" target="_blank">Privacy Policy</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="hero-section d-flex justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5 col-12 mx-auto">
+                            <form class="custom-form login-form" role="form" id="loginForm">
+                                <h2 class="hero-title text-center mb-4 pb-2">Login</h2>
+                                
+                                <div class="alert alert-danger" id="loginError" style="display: none;"></div>
+                                
+                                <div class="form-floating mb-4 p-0">
+                                    <input type="email" name="email" id="loginEmail" class="form-control" placeholder="Email" required>
+                                    <label for="loginEmail">Email</label>
+                                </div>
+                                
+                                <div class="form-floating p-0 password-container">
+                                    <input type="password" name="password" id="loginPassword" class="form-control" placeholder="Password" required>
+                                    <label for="loginPassword">Password</label>
+                                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                                </div>
+                                
+                                <div class="row justify-content-center align-items-center mt-4">
+                                    <div class="col-lg-5 col-12">
+                                        <button type="submit" class="form-control" id="loginButton">
+                                            <span id="loginButtonText">Login</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="row justify-content-center align-items-center mt-3">
+                                    <div class="col-lg-5 col-12">
+                                        <button type="button" id="google-signin" class="login-with-google-btn">
+                                            <span id="googleButtonText">Sign in with Google</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="loginStatus" class="text-center mt-3"></div>
+                                
+                                <div class="text-center mt-3">
+                                    <a href="forgot-password.html" class="text-white" style="font-size: 0.9rem;">Forgot password?</a>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <p class="text-white" style="font-size: 0.9rem;">
+                                        Don't have an account? <a href="register.html" class="text-primary">Register</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-wrap">
+                    <video autoplay loop muted class="custom-video" poster="">
+                        <source src="videos/login-new.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </section>
+        </main>
+
+        <!-- Firebase and Auth Scripts -->
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+        
+        <script>
+            // Firebase Config
+            const firebaseConfig = {
+                apiKey: "AIzaSyBpKRY83AmkPKDlM681bO-_f4-RVEODKJc",
+                authDomain: "fish-feed-test.firebaseapp.com",
+                databaseURL: "https://fish-feed-test-default-rtdb.firebaseio.com",
+                projectId: "fish-feed-test",
+                storageBucket: "fish-feed-test.appspot.com",
+                messagingSenderId: "770716235170",
+                appId: "1:770716235170:web:1c8a2568b0f23df2d06efb",
+                measurementId: "G-T46SCXTHC3"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+            const database = firebase.database();
+
+            // Track authentication state
+            let isProcessingLogin = false;
+            
+            // Password visibility toggle
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const passwordInput = document.getElementById('loginPassword');
+                const icon = this;
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                }
+            });
+
+            // Handle email/password login
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                if (isProcessingLogin) return;
+                isProcessingLogin = true;
+                
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                const loginButton = document.getElementById('loginButton');
+                const loginButtonText = document.getElementById('loginButtonText');
+                const errorElement = document.getElementById('loginError');
+                
+                // Clear previous errors
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+                
+                // Show loading state
+                loginButton.disabled = true;
+                loginButtonText.innerHTML = '<span class="loading-spinner"></span> Logging in...';
+                
+                try {
+                    // Sign in with email/password
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    
+                    // Check authorization status
+                    const [userSnapshot, pendingSnapshot] = await Promise.all([
+                        database.ref('authorizedUsers').child(user.uid).once('value'),
+                        database.ref('pendingApproval').child(user.uid).once('value')
+                    ]);
+                    
+                    if (userSnapshot.exists()) {
+                        // User is authorized - check if admin
+                        const adminSnapshot = await database.ref('admins').child(user.uid).once('value');
+                        window.location.href = adminSnapshot.exists() ? 'admin.html' : 'index.html';
+                    } else if (pendingSnapshot.exists()) {
+                        // User is pending approval
+                        window.location.href = 'waiting-approval.html';
+                    } else {
+                        // New user - add to pending approval
+                        await database.ref('pendingApproval').child(user.uid).set({
+                            email: user.email,
+                            displayName: user.email.split('@')[0],
+                            photoURL: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email.split('@')[0])}`,
+                            requestedAt: firebase.database.ServerValue.TIMESTAMP,
+                            provider: 'password'
+                        });
+                        window.location.href = 'waiting-approval.html';
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    
+                    // Handle specific error cases
+                    let errorMessage = "Login failed. Please try again.";
+                    switch(error.code) {
+                        case 'auth/user-not-found':
+                            errorMessage = "No account found with this email.";
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage = "Incorrect password. Please try again.";
+                            break;
+                        case 'auth/too-many-requests':
+                            errorMessage = "Too many attempts. Account temporarily locked. Try again later or reset your password.";
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage = "This account has been disabled.";
+                            break;
+                    }
+                    
+                    errorElement.textContent = errorMessage;
+                    errorElement.style.display = 'block';
+                } finally {
+                    // Reset button state
+                    loginButton.disabled = false;
+                    loginButtonText.textContent = 'Login';
+                    isProcessingLogin = false;
+                }
+            });
+
+            // Handle Google Sign-In
+            document.getElementById('google-signin').addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                if (isProcessingLogin) return;
+                isProcessingLogin = true;
+                
+                const googleButton = e.target;
+                const googleButtonText = document.getElementById('googleButtonText');
+                const errorElement = document.getElementById('loginError');
+                
+                // Clear previous errors
+                errorElement.style.display = 'none';
+                errorElement.textContent = '';
+                
+                // Show loading state
+                googleButton.disabled = true;
+                googleButtonText.innerHTML = '<span class="loading-spinner"></span> Signing in...';
+                
+                try {
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    const userCredential = await auth.signInWithPopup(provider);
+                    const user = userCredential.user;
+                    
+                    // Check authorization status
+                    const [userSnapshot, pendingSnapshot] = await Promise.all([
+                        database.ref('authorizedUsers').child(user.uid).once('value'),
+                        database.ref('pendingApproval').child(user.uid).once('value')
+                    ]);
+                    
+                    if (userSnapshot.exists()) {
+                        // User is authorized - check if admin
+                        const adminSnapshot = await database.ref('admins').child(user.uid).once('value');
+                        window.location.href = adminSnapshot.exists() ? 'admin.html' : 'index.html';
+                    } else if (pendingSnapshot.exists()) {
+                        // User is pending approval
+                        window.location.href = 'waiting-approval.html';
+                    } else {
+                        // New user - add to pending approval
+                        await database.ref('pendingApproval').child(user.uid).set({
+                            email: user.email,
+                            displayName: user.displayName || user.email.split('@')[0],
+                            photoURL: user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email.split('@')[0])}`,
+                            requestedAt: firebase.database.ServerValue.TIMESTAMP,
+                            provider: 'google.com'
+                        });
+                        window.location.href = 'waiting-approval.html';
+                    }
+                } catch (error) {
+                    console.error("Google sign-in error:", error);
+                    
+                    let errorMessage = "Google sign-in failed. Please try again.";
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        errorMessage = "Sign-in popup was closed. Please try again.";
+                    } else if (error.code === 'auth/account-exists-with-different-credential') {
+                        errorMessage = "An account already exists with this email. Try signing in with email/password.";
+                    }
+                    
+                    errorElement.textContent = errorMessage;
+                    errorElement.style.display = 'block';
+                } finally {
+                    // Reset button state
+                    googleButton.disabled = false;
+                    googleButtonText.textContent = 'Sign in with Google';
+                    isProcessingLogin = false;
+                }
+            });
+
+            // Check if user is already logged in
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    try {
+                        // Check all possible states
+                        const [userSnapshot, pendingSnapshot] = await Promise.all([
+                            database.ref('authorizedUsers').child(user.uid).once('value'),
+                            database.ref('pendingApproval').child(user.uid).once('value')
+                        ]);
+
+                        if (userSnapshot.exists()) {
+                            const adminSnapshot = await database.ref('admins').child(user.uid).once('value');
+                            window.location.href = adminSnapshot.exists() ? 'admin.html' : 'index.html';
+                        } else if (pendingSnapshot.exists()) {
+                            window.location.href = 'waiting-approval.html';
+                        } else {
+                            // If user exists in auth but not in our system, log them out
+                            window.location.href = 'waiting-approval.html';
+                        }
+                    } catch (error) {
+                        console.error("Auth state check error:", error);
+                        await auth.signOut();
+                    }
+                }
+            });
+        </script>
+        
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="js/init.js"></script>
+        <script src="js/db.js"></script>
+    </body>
+</html>

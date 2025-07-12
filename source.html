@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fish Feeding System</title>
+<link rel="icon" href="https://bawantha-beliwaththa.me/img/title.png" type="image/png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="https://bawantha-beliwaththa.me/img/style.css">
+</head>
+<body class="fish-light-grey fish-content" style="max-width:1600px">
+
+<!-- Sidebar/menu -->
+<nav class="fish-sidebar fish-collapse fish-white fish-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="fish-container">
+    <a href="#" onclick="fish_close()" class="fish-hide-large fish-right fish-jumbo fish-padding fish-hover-grey" title="close menu">
+      <i class="fa fa-remove"></i>
+    </a>
+    <img src="https://bawantha-beliwaththa.me/img/head.jpg" style="width:45%;" class="fish-round"><br><br>
+    <h4><b>SYSTEM</b></h4>
+    <p class="fish-text-grey">Project By Group 05</p>
+  </div>
+  <div class="fish-bar-block">
+    <a href="#Manual" onclick="fish_close()" class="fish-bar-item fish-button fish-padding fish-text-teal"><i class="fa fa-gears fish-margin-right"></i>Instructions</a>
+    <a href="#Auto" onclick="fish_close()" class="fish-bar-item fish-button fish-padding fish-text-teal"><i class="fa fa-fish fish-margin-right"></i>Automatic System</a>
+    </div>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="fish-overlay fish-hide-large fish-animate-opacity" onclick="fish_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="fish-main" style="margin-left:300px">
+
+ <!-- Header -->
+  <header id="Manual">
+    <a href="#"><img src="https://bawantha-beliwaththa.me/img/fish01.jpg" style="width:65px;" class="fish-circle fish-right fish-margin fish-hide-large fish-hover-opacity"></a>
+    <span class="fish-button fish-hide-large fish-xxlarge fish-hover-text-grey" onclick="fish_open()"><i class="fa fa-bars"></i></span>
+    <div class="fish-container">
+    <h1><b>Instructions</b></h1>
+    </div>
+  </header>
+
+  <!-- First Photo Grid-->
+  <div class="fish-row-padding">
+    <div class="fish-third fish-container fish-margin-bottom">
+      <img src="https://bawantha-beliwaththa.me/img/instructions/board_connect.jpg" alt="Board Connect" style="width:100%" class="fish-hover-opacity">
+      <div class="fish-container fish-white">
+        <p><b>Connect The ESP32 Board</b></p>
+        <p>Make sure all your componets are working finely and this is how you're gonna setup your ESP32 Board</p>
+      </div>
+    </div>
+    <div class="fish-third fish-container fish-margin-bottom">
+      <img src="https://bawantha-beliwaththa.me/img/instructions/heat_sensor.jpg" alt="Board Connect" style="width:100%" class="fish-hover-opacity">
+      <div class="fish-container fish-white">
+        <p><b>Make Sure Your Heat Sensor Works</b></p>
+        <p>You have to get a sensor that is named as DS18B20 Sensor. It's for calculating the heat of the water</p>
+      </div>
+    </div>
+    <div class="fish-third fish-container fish-margin-bottom">
+      <img src="https://bawantha-beliwaththa.me/img/instructions/motor.jpg" alt="Board Connect" style="width:100%" class="fish-hover-opacity">
+      <div class="fish-container fish-white">
+        <p><b>Connect The ULN2003AN to the board</b></p>
+        <p>ULN2003AN has the socket to connect stepper motoer to the ESP32 board. So connect and check if it works</p>
+      </div>
+    </div>
+    
+
+
+  <!-- Second Photo Grid-->
+  <div class="fish-row-padding">
+    <div class="fish-third fish-container fish-margin-bottom">
+      <img src="https://bawantha-beliwaththa.me/img/instructions/complete_before.jpg" alt="Board Connect" style="width:100%" class="fish-hover-opacity">
+      <div class="fish-container fish-white">
+        <p><b>All Set ?</b></p>
+        <p>Before Powering up make sure all components are connected safely</p>
+      </div>
+    </div>
+    <div class="fish-third fish-container fish-margin-bottom">
+      <img src="https://bawantha-beliwaththa.me/img/instructions/complete.jpg" alt="Board Connect" style="width:100%" class="fish-hover-opacity">
+      <div class="fish-container fish-white">
+        <p><b>Power Up</b></p>
+        <p>Connect the ESP32 Board into your PC and run the code</p>
+      </div>
+    </div>
+    <div class="fish-third fish-container fish-margin-bottom">
+      <img src="https://bawantha-beliwaththa.me/img/instructions/output.jpg" alt="Board Connect" style="width:100%" class="fish-hover-opacity">
+      <div class="fish-container fish-white">
+        <p><b>Get The output</b></p>
+        <p>Now watch the serial monitor and make sure all the things are working nicely</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fish-container fish-padding-large" style="margin-bottom:32px" id="Auto">
+    <h1><b>Automation System</b></h1>
+    <p>This How Our System Coded As. We provide you the whole code for your project.</p>
+    <hr>
+
+<!--Heat Sensor-->
+    <h3>Heat Sensor (DS18B20)</h3>
+    <p>Simple Code</p>
+    <div class="code-container">
+  <div class="code-header">
+    <span class="code-title">ESP32 DS18B20 Sample Code</span>
+    <button class="copy-button" onclick="copyCode()">Copy</button>
+  </div>
+  <pre><code id="codeSnippet">// Include the libraries we need
+#include &lt;OneWire.h&gt;
+#include &lt;DallasTemperature.h&gt;
+#define ONE_WIRE_BUS 2
+
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+
+void setup(void)
+{
+  Serial.begin(9600);
+  Serial.println("Dallas Temperature IC Control Library Demo");
+
+  sensors.begin();
+}
+void loop(void)
+{
+  Serial.print("Requesting temperatures...");
+  sensors.requestTemperatures(); // Send the command to get temperatures
+  Serial.println("DONE");
+  delay(1500);
+  float tempC = sensors.getTempCByIndex(0);
+
+  // Check if reading was successful
+  if (tempC != DEVICE_DISCONNECTED_C)
+  {
+    Serial.print("Temperature for the device 1 (index 0) is: ");
+    Serial.println(tempC);
+  }
+  else
+  {
+    Serial.println("Error: Could not read temperature data");
+  }
+}
+</code></pre>
+</div>
+    <hr>
+<!--Stepper Motor-->    
+<h3>Stepper Motor (ULN200AN)</h3>
+    <p>Simple Code</p>
+    <div class="code-container">
+  <div class="code-header">
+    <span class="code-title">ESP32 ULN2003AN Sample Code</span>
+    <button class="copy-button" onclick="copyCode()">Copy</button>
+  </div>
+  <pre><code id="codeSnippet">// Define pins
+#define IN1 4
+#define IN2 5
+#define IN3 18
+#define IN4 19
+
+// Stepper sequence (full-step)
+byte stepSequence[4] = {
+  B1000,  // IN1 activated
+  B0100,  // IN2 activated
+  B0010,  // IN3 activated
+  B0001   // IN4 activated
+};
+
+void setup() {
+  // Set all pins as outputs
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+}
+
+void loop() {
+  // Rotate clockwise
+  for(int i = 0; i < 512; i++) {  // 512 steps = ~1 revolution for 28BYJ-48
+    for(int j = 0; j < 4; j++) {
+      digitalWrite(IN1, stepSequence[j] & B1000);
+      digitalWrite(IN2, stepSequence[j] & B0100);
+      digitalWrite(IN3, stepSequence[j] & B0010);
+      digitalWrite(IN4, stepSequence[j] & B0001);
+      delay(3);  // Adjust for speed
+    }
+  }
+  
+  delay(1000);  // Pause between rotations
+}
+</code></pre>
+</div>
+
+<!--Full Code-->
+<h3>Full Code For The System</h3>
+    <p>Simple Code</p>
+    <div class="code-container">
+  <div class="code-header">
+    <span class="code-title">Fish Feeding Full System Code</span>
+    <button class="copy-button" onclick="copyCode()">Copy</button>
+  </div>
+  <pre><code id="codeSnippet">#include &lt;OneWire.h&gt;
+#include &lt;DallasTemperature.h&gt;
+
+// Stepper motor pins
+#define IN1 4
+#define IN2 5
+#define IN3 18
+#define IN4 19
+
+// Temperature sensor pin
+#define ONE_WIRE_BUS 2
+
+// Stepper sequence (full-step)
+byte stepSequence[4] = {
+  B1000,  // IN1 activated
+  B0100,  // IN2 activated
+  B0010,  // IN3 activated
+  B0001   // IN4 activated
+};
+
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+
+// Function to rotate the stepper motor (now defined before loop())
+void rotateStepper(int steps, int stepDelay, bool reverse = false) {
+  int direction = reverse ? -1 : 1;
+  int start = reverse ? 3 : 0;
+  int end = reverse ? -1 : 4;
+  
+  for(int i = 0; i < steps; i++) {
+    for(int j = start; j != end; j += direction) {
+      digitalWrite(IN1, stepSequence[j] & B1000);
+      digitalWrite(IN2, stepSequence[j] & B0100);
+      digitalWrite(IN3, stepSequence[j] & B0010);
+      digitalWrite(IN4, stepSequence[j] & B0001);
+      delay(stepDelay);
+    }
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Stepper Motor with Temperature Control");
+  
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  
+  sensors.begin();
+}
+
+void loop() {
+  sensors.requestTemperatures();
+  float tempC = sensors.getTempCByIndex(0);
+  
+  if (tempC != DEVICE_DISCONNECTED_C) {
+    Serial.print("Temperature: ");
+    Serial.print(tempC);
+    Serial.println("°C");
+    
+    if (tempC > 25.0) {
+      Serial.println("Temperature high - rotating stepper 180° forward");
+      rotateStepper(256, 4);  // 256 steps ≈ 180° (half revolution)
+      delay(2000);           // Hold for 2 seconds
+      Serial.println("Returning to original position");
+      rotateStepper(256, 4, true);  // Reverse direction
+    } else {
+      Serial.println("Temperature normal - no action");
+    }
+  } else {
+    Serial.println("Error: Could not read temperature data");
+  }
+  
+  delay(2000);  // Wait 2 seconds between readings
+}
+</code></pre>
+</div>
+
+<!--Full Code For The Server-->
+<h3>Full Code For The Serevr System</h3>
+    <p>Simple Code</p>
+    <div class="code-container">
+  <div class="code-header">
+    <span class="code-title">Fish Feeding Full Server System Code</span>
+    <button class="copy-button" onclick="copyCode()">Copy</button>
+  </div>
+  <pre><code id="codeSnippet">#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+#include &lt;OneWire.h&gt;
+#include &lt;DallasTemperature.h&gt;
+
+// WiFi credentials
+const char* ssid = "TCL 30E";
+const char* password = "bawantha";
+
+// Temperature sensor setup
+#define ONE_WIRE_BUS 4
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+
+// Stepper motor pins
+#define IN1 12
+#define IN2 14
+#define IN3 27
+#define IN4 26
+
+// Web server on port 80
+WebServer server(80);
+
+// Stepper sequence
+byte stepSequence[4] = {
+  B1000, B0100, B0010, B0001
+};
+
+// System variables
+float currentTemp = 0;
+String motorStatus = "idle";
+
+void rotateStepper(int steps, int stepDelay, bool reverse = false) {
+  motorStatus = "rotating";
+  int direction = reverse ? -1 : 1;
+  int start = reverse ? 3 : 0;
+  int end = reverse ? -1 : 4;
+  
+  for(int i = 0; i < steps; i++) {
+    for(int j = start; j != end; j += direction) {
+      digitalWrite(IN1, stepSequence[j] & B1000);
+      digitalWrite(IN2, stepSequence[j] & B0100);
+      digitalWrite(IN3, stepSequence[j] & B0010);
+      digitalWrite(IN4, stepSequence[j] & B0001);
+      delay(stepDelay);
+    }
+  }
+  motorStatus = "idle";
+}
+
+void handleRoot() {
+  File file = SPIFFS.open("/index.html", "r");
+  if (!file) {
+    server.send(500, "text/plain", "Failed to open HTML file");
+    return;
+  }
+
+void handleRotate() {
+  server.send(200, "text/plain", "Rotating motor");
+  rotateStepper(256, 4);  // Forward
+  delay(1000);
+  rotateStepper(256, 4, true);  // Reverse
+}
+
+void handleData() {
+  String json = "{\"temperature\":" + String(currentTemp) + ",";
+  json += "\"motor_status\":\"" + motorStatus + "\"}";
+  server.send(200, "application/json", json);
+}
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Initialize stepper pins
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  
+  // Start temperature sensor
+  sensors.begin();
+  
+  // Connect to WiFi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  
+  // Set up server routes
+  server.on("/", handleRoot);
+  server.on("/rotate", handleRotate);
+  server.on("/data", handleData);
+  
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+  
+  // Update temperature every 5 seconds
+  static unsigned long lastTempUpdate = 0;
+  if (millis() - lastTempUpdate > 5000) {
+    sensors.requestTemperatures();
+    currentTemp = sensors.getTempCByIndex(0);
+    lastTempUpdate = millis();
+    Serial.println("Temperature: " + String(currentTemp) + "°C");
+  }
+}
+</code></pre>
+</div>
+  <!-- Footer -->
+  <footer class="fish-container fish-padding-32 fish-dark-grey">
+    <p>Made by Group 05</p>
+  </footer>
+</div>
+
+<script src="https://bawantha-beliwaththa.me/img/main.js"></script>
+</body>
+</html>

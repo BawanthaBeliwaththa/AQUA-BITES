@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish-Feeding Admin</title>
+    <link rel="icon" href="images/fish_2271030.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/hello.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-image: url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExamNudTJzcmlqc3d6aGNjdHZscndkaGd6eWQyMGZ3b3VudWs0MGsxNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/doXBzUFJRxpaUbuaqz/giphy.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .actions button {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .no-pending {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <br><br>
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user-shield"></i>
+                        Admin Panel
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#user-activity" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        User Activity
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h2>Admin Approval Panel</h2>
+                <div class="user-profile" id="user-profile">
+                    <img id="user-avatar" src="images/user.png" alt="User">
+                    <span id="username-display" style="color: chartreuse;">Admin</span>
+                    <div class="dropdown-menu">
+                        <div class="user-info">
+                            <strong id="user-fullname">Admin</strong><br>
+                            <small id="user-email">admin@example.com</small>
+                        </div>
+                        <button class="logout-btn" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="alert-box" class="alert-box"></div>
+
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Pending Approval Requests</h3>
+                    <div class="card-icon settings">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Requested At</th>
+                                <th>Provider</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pending-users">
+                            <tr>
+                                <td colspan="5" class="no-pending">Loading pending requests...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" id="user-activity">
+                <div class="card-header">
+                    <h3 class="card-title">User Activity</h3>
+                    <div class="card-icon users">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                                <th>Last Active</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-activity-list">
+                            <tr>
+                                <td colspan="5" class="no-pending">Loading user activity...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script>
+        document.addEventListener('auth-complete', function() {
+            const database = firebase.database();
+            const auth = firebase.auth();
+            
+            // Verify admin status
+            database.ref('admins').child(auth.currentUser.uid).once('value')
+                .then((adminSnapshot) => {
+                    if (!adminSnapshot.exists()) {
+                        console.log("[Admin] User is not admin, redirecting");
+                        window.location.href = 'index.html';
+                        return;
+                    }
+                    
+                    console.log("[Admin] Loading admin panel");
+                    loadPendingUsers();
+                    loadUserActivity();
+                })
+                .catch(error => {
+                    console.error("[Error] Admin check failed:", error);
+                    window.location.href = 'index.html';
+                });
+            
+            function loadPendingUsers() {
+                database.ref('pendingApproval').orderByChild('requestedAt').on('value', (snapshot) => {
+                    const tbody = document.getElementById('pending-users');
+                    tbody.innerHTML = '';
+                    
+                    if (!snapshot.exists()) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="5" class="no-pending">No pending approval requests</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    snapshot.forEach(childSnapshot => {
+                        const user = childSnapshot.val();
+                        const date = new Date(user.requestedAt);
+                        const row = document.createElement('tr');
+                        
+                        row.innerHTML = `
+                            <td>
+                                <img src="${user.photoURL || 'images/user.png'}" alt="${user.displayName}" class="user-avatar">
+                                ${user.displayName || user.email.split('@')[0]}
+                            </td>
+                            <td>${user.email}</td>
+                            <td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td>
+                            <td>${user.provider || 'email'}</td>
+                            <td class="actions">
+                                <button class="button button-success approve-btn" data-uid="${childSnapshot.key}">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <button class="button button-danger reject-btn" data-uid="${childSnapshot.key}">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            </td>
+                        `;
+                        
+                        tbody.appendChild(row);
+                    });
+                    
+                    // Add event listeners to buttons
+                    document.querySelectorAll('.approve-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const uid = e.target.getAttribute('data-uid');
+                            if (uid === auth.currentUser.uid) {
+                                showAlert("You cannot approve yourself!", "error");
+                                return;
+                            }
+                            approveUser(uid);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.reject-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const uid = e.target.getAttribute('data-uid');
+                            if (uid === auth.currentUser.uid) {
+                                showAlert("You cannot reject yourself!", "error");
+                                return;
+                            }
+                            rejectUser(uid);
+                        });
+                    });
+                });
+            }
+            
+            function loadUserActivity() {
+                database.ref('userActivity').orderByChild('lastLogin').limitToLast(20).on('value', (snapshot) => {
+                    const tbody = document.getElementById('user-activity-list');
+                    tbody.innerHTML = '';
+                    
+                    if (!snapshot.exists()) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="5" class="no-pending">No user activity found</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+                    
+                    const users = [];
+                    snapshot.forEach(childSnapshot => {
+                        users.push({
+                            key: childSnapshot.key,
+                            ...childSnapshot.val()
+                        });
+                    });
+                    
+                    // Sort by last login (newest first)
+                    users.sort((a, b) => b.lastLogin - a.lastLogin);
+                    
+                    users.forEach(user => {
+                        const date = new Date(user.lastLogin);
+                        const row = document.createElement('tr');
+                        
+                        // Check if user is online
+                        const isOnline = Date.now() - user.lastLogin < 300000; // 5 minutes
+                        
+                        row.innerHTML = `
+                            <td>
+                                <img src="${user.photoURL || 'images/user.png'}" alt="${user.displayName}" class="user-avatar">
+                                ${user.displayName}
+                                ${auth.currentUser && user.key === auth.currentUser.uid ? '<span class="you-badge">(You)</span>' : ''}
+                            </td>
+                            <td>${user.email}</td>
+                            <td>${user.actions || 0}</td>
+                            <td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td>
+                            <td>
+                                <span class="status-indicator ${isOnline ? 'status-online' : 'status-offline'}"></span>
+                                ${isOnline ? 'Online' : 'Offline'}
+                            </td>
+                        `;
+                        
+                        tbody.appendChild(row);
+                    });
+                });
+            }
+            
+            function approveUser(uid) {
+                database.ref('pendingApproval').child(uid).once('value')
+                    .then((snapshot) => {
+                        const userData = snapshot.val();
+                        
+                        // Add to authorizedUsers
+                        return database.ref('authorizedUsers').child(uid).set({
+                            email: userData.email,
+                            displayName: userData.displayName || userData.email.split('@')[0],
+                            photoURL: userData.photoURL,
+                            approved: true,
+                            approvedAt: firebase.database.ServerValue.TIMESTAMP,
+                            approvedBy: auth.currentUser.uid,
+                            provider: userData.provider || 'email'
+                        });
+                    })
+                    .then(() => {
+                        // Remove from pendingApproval
+                        return database.ref('pendingApproval').child(uid).remove();
+                    })
+                    .then(() => {
+                        // Add to userActivity
+                        return database.ref('userActivity').child(uid).update({
+                            email: userData.email,
+                            displayName: userData.displayName || userData.email.split('@')[0],
+                            photoURL: userData.photoURL,
+                            lastLogin: firebase.database.ServerValue.TIMESTAMP,
+                            actions: 0,
+                            status: 'active'
+                        });
+                    })
+                    .then(() => {
+                        showAlert('User approved successfully!', 'success');
+                    })
+                    .catch(error => {
+                        console.error("Error approving user:", error);
+                        showAlert('Failed to approve user: ' + error.message, 'error');
+                    });
+            }
+            
+            function rejectUser(uid) {
+                if (confirm('Are you sure you want to reject this user?')) {
+                    database.ref('pendingApproval').child(uid).remove()
+                        .then(() => {
+                            showAlert('User rejected successfully!', 'success');
+                        })
+                        .catch((error) => {
+                            console.error("Error rejecting user:", error);
+                            showAlert('Failed to reject user: ' + error.message, 'error');
+                        });
+                }
+            }
+            
+            function showAlert(message, type = "info") {
+                const alertBox = document.getElementById('alert-box');
+                if (alertBox) {
+                    alertBox.textContent = message;
+                    alertBox.style.display = 'block';
+                    alertBox.className = `alert-box ${type}`;
+                    
+                    setTimeout(() => {
+                        alertBox.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

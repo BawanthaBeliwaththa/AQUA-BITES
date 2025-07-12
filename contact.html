@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fish Feed System | Contact Us</title>
+        <link rel="icon" href="images/fish_2271030.png" type="image/png">
+        
+        <!-- CSS FILES -->                
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <main>
+            <header class="site-header">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-lg-12 col-12 d-flex">
+                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="index.html">
+                                <i class="bi-box"></i>
+                                <span>Fish Feeding System</span>
+                            </a>
+                            <ul class="social-icon d-flex justify-content-center align-items-center mx-auto">
+                                <span class="text-white me-4 d-none d-lg-block">How to get Involved</span>
+                                <li class="social-icon-item"><a href="https://www.instagram.com/bawantha_be/" class="social-icon-link bi-instagram"></a></li>
+                                <li class="social-icon-item"><a href="https://twitter.com/BawanthaBeli" class="social-icon-link bi-twitter"></a></li>
+                                <li class="social-icon-item"><a href="https://github.com/Bawanthabeliwaththa" class="social-icon-link bi-github"></a></li>
+                            </ul>
+                            <div>
+                                <a href="#" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal">
+                                    Subscribe Us <i class="bi-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                            <a class="bi-list offcanvas-icon" data-bs-toggle="offcanvas" href="#offcanvasMenu" role="button" aria-controls="offcanvasMenu"></a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+                <div class="offcanvas-header">                    
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                
+                <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+                    <nav>
+                        <ul>
+                            <li>
+                                <a href="index.html">Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="source.html">Source Code</a>
+                            </li>
+                            <li>
+                                <a href="contact.html" class="active">Contact Us</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form action="#" method="get" class="custom-form mt-lg-4 mt-2" role="form">
+                                <h2 class="modal-title" id="subscribeModalLabel">Get New Emails</h2>
+
+                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="you@email.lk" required="">
+
+                                <button type="submit" class="form-control">Subscribe</button>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer justify-content-center">
+                            <p>By signing up, you agree to our <a href="#" target="_blank">Privacy Policy</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="hero-section d-flex justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-12 mx-auto">
+                            <form class="custom-form contact-form" role="form" id="contactForm">
+                                <h2 class="hero-title text-center mb-4 pb-2">Contact Us</h2>
+                                <div id="formAlert" class="alert alert-success d-none"></div>
+                                
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="form-floating">
+                                            <input type="text" name="fullName" id="fullName" class="form-control" placeholder="Full Name" required>
+                                            <label for="fullName">Full Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="form-floating mb-4">
+                                            <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required>
+                                            <label for="email">Email address</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" id="message" name="message" placeholder="Message" required></textarea>
+                                            <label for="message">Message</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-10 mx-auto mt-4">
+                                        <button type="submit" class="form-control">Send Message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-wrap">
+                    <video autoplay loop muted class="custom-video" poster="">
+                        <source src="videos/video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </section>
+        </main>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+        
+        <script>
+            // Firebase Configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyDWv3X7Cb2ZnuZ-P9EleexXdh784fxsNGg",
+                authDomain: "fish-feed-system.firebaseapp.com",
+                databaseURL: "https://fish-feed-system-default-rtdb.firebaseio.com",
+                projectId: "fish-feed-system",
+                storageBucket: "fish-feed-system.appspot.com",
+                messagingSenderId: "261635261175",
+                appId: "1:261635261175:web:4d729af1a0c6acfadc89f2"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
+            // Handle form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+                const timestamp = new Date().toISOString();
+                
+                // Push data to Firebase
+                database.ref('contacts').push({
+                    fullName: fullName,
+                    email: email,
+                    message: message,
+                    timestamp: timestamp
+                })
+                .then(() => {
+                    // Show success message
+                    const alert = document.getElementById('formAlert');
+                    alert.textContent = 'Thank you! Your message has been sent.';
+                    alert.classList.remove('d-none', 'alert-danger');
+                    alert.classList.add('alert-success');
+                    
+                    // Reset form
+                    document.getElementById('contactForm').reset();
+                    
+                    // Hide alert after 5 seconds
+                    setTimeout(() => {
+                        alert.classList.add('d-none');
+                    }, 5000);
+                })
+                .catch((error) => {
+                    // Show error message
+                    const alert = document.getElementById('formAlert');
+                    alert.textContent = 'Error: ' + error.message;
+                    alert.classList.remove('d-none', 'alert-success');
+                    alert.classList.add('alert-danger');
+                });
+            });
+
+            // Logout functionality
+            document.getElementById('logout-btn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                firebase.auth().signOut().then(() => {
+                    window.location.href = 'login.html';
+                });
+            });
+        </script>
+    </body>
+</html>

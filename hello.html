@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Feeder Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/hello.css">
+    <style>
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            padding: 10px;
+        }
+        .card {
+            margin-bottom: 20px;
+            overflow: hidden;
+            
+        }
+        .servo-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .debug-info {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            font-family: monospace;
+        }
+        .debug-info span {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .debug-info.error {
+            color: #f44336;
+        }
+        .debug-info.warning {
+            color: #FFC107;
+        }
+        .debug-info.success {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <ul class="nav-menu">
+                <li class="nav-item active">
+                    <a href="#" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#user-activity" class="nav-link"><i class="fas fa-users"></i> User Activity</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#feeding-history" class="nav-link"><i class="fas fa-history"></i> Feeding History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="source.html" class="nav-link" target="_blank"><i class="fas fa-code"></i> Source Code</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link" target="_blank"><i class="fas fa-address-book"></i> Contact us</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h2>User Dashboard</h2>
+                <div class="user-profile">
+                    <img id="user-avatar" src="images/user.png" alt="User">
+                    <span id="username-display" style="color: chartreuse;"></span>
+                    <div class="dropdown-menu">
+                        <div class="user-info">
+                            <strong id="user-fullname"></strong><br>
+                            <small id="user-email"></small>
+                        </div>
+                        <button id="logout-btn" class="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="alert-box" class="alert-box"></div>
+
+            <div class="cards-grid">
+                <!-- Status Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Current Status</h3>
+                        <div class="card-icon"><i class="fas fa-temperature-high"></i></div>
+                    </div>
+                    <div class="data-item">
+                        <div>Water Temperature</div>
+                        <div id="temperature">-- °C</div>
+                        <div class="debug-info">
+                            <small>Sensor Status: <span id="temp-debug">Waiting for data...</span></small>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div>Motor Status</div>
+                        <div id="motor-status">
+                            <span class="status-indicator status-online"></span> Idle
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div>Feeding Method</div>
+                        <div id="feeding-method">Stepper Motor</div>
+                    </div>
+                </div>
+
+                <!-- Controls Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Quick Controls</h3>
+                        <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                    </div>
+                    <button id="feed-button" class="button">
+                        <i class="fas fa-utensils"></i> Feed Now (Stepper)
+                    </button>
+                    <button id="feed-servo-button" class="button" style="margin-top: 10px;">
+                        <i class="fas fa-utensils"></i> Feed Now (Servo)
+                    </button>
+                    <div class="debug-info" style="margin-top: 10px;">
+                        <small>Feed System: <span id="feed-debug">Ready</span></small>
+                    </div>
+                    <div class="data-item">
+                        <div>Auto Feeding</div>
+                        <div>
+                            <span id="feeding-enabled">Enabled</span>
+                            <button id="toggle-feeding" class="button button-outline">Toggle</button>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div>Servo Mode</div>
+                        <div>
+                            <span id="servo-enabled">Disabled</span>
+                            <button id="toggle-servo" class="button button-outline">Toggle</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Feeding Schedule</h3>
+                        <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="schedule-item">
+                        <input type="time" id="time1" value="08:00">
+                        <label>Morning</label>
+                    </div>
+                    <div class="schedule-item">
+                        <input type="time" id="time2" value="12:00">
+                        <label>Noon</label>
+                    </div>
+                    <div class="schedule-item">
+                        <input type="time" id="time3" value="18:00">
+                        <label>Evening</label>
+                    </div>
+                    <button id="update-schedule" class="button">
+                        <i class="fas fa-save"></i> Update Schedule
+                    </button>
+                </div>
+            </div>
+
+            <!-- User Activity Graph -->
+            <div class="card" id="user-activity">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> User Activity (Last 24 Hours)</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="userActivityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Feeding History Graph -->
+            <div class="card" id="feeding-history">
+                <div class="card-header">
+                    <h3><i class="fas fa-history"></i> Feeding History (Last 24 Feedings)</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="feedingHistoryChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase and Chart.js -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Application Scripts -->
+    <script src="js/auth-check.js"></script>
+    <script src="js/db.js"></script>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const sidebar = document.querySelector('.sidebar');
+            
+            if (mobileMenuBtn && sidebar) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('mobile-visible');
+                });
+            }
+            
+            // Highlight active nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

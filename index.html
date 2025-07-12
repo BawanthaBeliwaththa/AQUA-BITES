@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Fish Feed System | Dashboard</title>
+        <link rel="icon" href="images/fish_2271030.png" type="image/png">
+        
+        <!-- CSS FILES -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <style>
+            /* Ensure iframe takes full available space */
+            .iframe-container {
+                position: relative;
+                width: 100%;
+                height: calc(113vh - 90px); /* Account for header height */
+                min-height: 600px;
+                z-index: 1;
+            }
+            
+            iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+                background: transparent;
+            }
+            
+            /* Video background styling */
+            .video-wrap {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                overflow: hidden;
+            }
+            
+            .custom-video {
+                min-width: 100%;
+                min-height: 100%;
+                object-fit: cover;
+            }
+            
+            /* Header styling */
+            .site-header {
+                position: relative;
+                z-index: 2;
+                background-color: rgba(15, 23, 42, 0.8);
+            }
+.telegram-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0088cc;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  /* Tooltip text */
+  .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    right: 70px; /* Position to the left of the button */
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 14px;
+  }
+
+  /* Show tooltip on hover */
+  .telegram-float:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* Optional: Button animation on hover */
+  .telegram-float:hover {
+    background: #006699;
+    transform: scale(1.1);
+  }
+
+        </style>
+    </head>
+    
+    <body>
+        <main>
+
+            <!-- Iframe Container for Dashboard -->
+            <div class="iframe-container">
+                <iframe src="hello.html" id="dashboardFrame" allow="autoplay"></iframe>
+            </div>
+
+            <!-- Video Background -->
+            <div class="video-wrap">
+                <video autoplay loop muted class="custom-video">
+                    <source src="videos/fish-last.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Offcanvas Menu -->
+            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">                
+                <div class="offcanvas-header">                    
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                
+                <div class="offcanvas-body d-flex flex-column justify-content-center align-items-center">
+                    <nav>
+                        <ul>
+                            <li><a href="index.html">Dashboard</a></li>
+                            <li><a href="source.html">Source Code</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </main>
+        
+<a href="https://t.me/g_five_fish_feed_bot" class="telegram-float" target="_blank" id="draggable-button">
+  <i class="fab fa-telegram"></i> <!-- Telegram icon (requires Font Awesome) -->
+  <span class="tooltip-text">Our Bot For Feeding!</span> <!-- Hover text -->
+</a>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+        
+        <script>
+            // Initialize Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyBpKRY83AmkPKDlM681bO-_f4-RVEODKJc",
+                authDomain: "fish-feed-test.firebaseapp.com",
+                projectId: "fish-feed-test",
+                storageBucket: "fish-feed-test.appspot.com",
+                messagingSenderId: "770716235170",
+                appId: "1:770716235170:web:1c8a2568b0f23df2d06efb",
+                measurementId: "G-T46SCXTHC3"
+            };
+
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+
+            // Handle authentication and iframe communication
+            document.addEventListener('DOMContentLoaded', function() {
+                const iframe = document.getElementById('dashboardFrame');
+                
+                // Listen for iframe load
+                iframe.onload = function() {
+                    // Check auth state when iframe is loaded
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        if (user) {
+                            // User is signed in, send user data to iframe
+                            iframe.contentWindow.postMessage({
+                                type: 'auth',
+                                user: {
+                                    uid: user.uid,
+                                    email: user.email,
+                                    displayName: user.displayName || user.email
+                                }
+                            }, '*');
+                        } else {
+                            // No user is signed in
+                            window.location.href = 'login.html';
+                        }
+                    });
+                };
+
+                // Listen for messages from iframe (like logout)
+                window.addEventListener('message', function(event) {
+                    if (event.data.type === 'logout') {
+                        firebase.auth().signOut().then(() => {
+                            window.location.href = 'login.html';
+                        });
+                    }
+                });
+            });
+            
+    const button = document.getElementById('draggable-button');
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    // Mouse down event (start dragging)
+    button.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      
+      // Calculate the cursor's position inside the button
+      offsetX = e.clientX - button.getBoundingClientRect().left;
+      offsetY = e.clientY - button.getBoundingClientRect().top;
+      
+      button.style.transition = 'none'; // Disable smooth transitions while dragging
+      e.preventDefault(); // Prevent text selection
+    });
+
+    // Mouse move event (while dragging)
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      
+      // Calculate new position
+      const x = e.clientX - offsetX;
+      const y = e.clientY - offsetY;
+      
+      // Apply new position
+      button.style.left = x + 'px';
+      button.style.top = y + 'px';
+      button.style.right = 'unset'; // Override fixed right/bottom
+      button.style.bottom = 'unset';
+    });
+
+    // Mouse up event (stop dragging)
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      button.style.transition = 'all 0.3s ease'; // Re-enable transitions
+    });
+
+    // Touch support for mobile devices
+    button.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      const touch = e.touches[0];
+      offsetX = touch.clientX - button.getBoundingClientRect().left;
+      offsetY = touch.clientY - button.getBoundingClientRect().top;
+      button.style.transition = 'none';
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      const touch = e.touches[0];
+      const x = touch.clientX - offsetX;
+      const y = touch.clientY - offsetY;
+      button.style.left = x + 'px';
+      button.style.top = y + 'px';
+      button.style.right = 'unset';
+      button.style.bottom = 'unset';
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchend', () => {
+      isDragging = false;
+      button.style.transition = 'all 0.3s ease';
+    });
+        </script>
+    </body>
+</html>
