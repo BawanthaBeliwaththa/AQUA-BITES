@@ -4,6 +4,49 @@
 
 > **Smart IoT Solution** • **Web & Telegram Control** • **Real-time Monitoring** • **Dual Feeding Mechanism**
 
+## 👥 Collaborators
+
+<table align="center" style="border-spacing: 20px; border-collapse: separate;">
+  <tr>
+    <td align="center" style="padding: 15px;">
+      <a href="https://github.com/isinduwickramasekara">
+        <img src="https://avatars.githubusercontent.com/u/220453304?v=4" width="60" style="border-radius: 50%; border: 2px solid #2a9d8f;">
+      </a>
+      <br />
+      <strong>Isindu Wickremasinghe</strong>
+      <br />
+      <sub>Project Lead</sub>
+    </td>
+    <td align="center" style="padding: 15px;">
+      <a href="https://github.com/BawanthaBeliwaththa">
+        <img src="https://avatars.githubusercontent.com/u/85686518?v=4" width="60" style="border-radius: 50%; border: 2px solid #2a9d8f;">
+      </a>
+      <br />
+      <strong>Bwantha Beliwaththa</strong>
+      <br />
+      <sub>Software Developer</sub>
+    </td>
+    <td align="center" style="padding: 15px;">
+      <a href="https://github.com/LPCN">
+        <img src="https://avatars.githubusercontent.com/u/136079304?v=4" width="60" style="border-radius: 50%; border: 2px solid #2a9d8f;">
+      </a>
+      <br />
+      <strong>Navod Ranasinghe</strong>
+      <br />
+      <sub>3D Modal Specialist</sub>
+    </td>
+    <td align="center" style="padding: 15px;">
+      <a href="https://github.com/Dula4">
+        <img src="https://avatars.githubusercontent.com/u/214478617?v=4" width="60" style="border-radius: 50%; border: 2px solid #2a9d8f;">
+      </a>
+      <br />
+      <strong>Dulanjana Ranasinghe</strong>
+      <br />
+      <sub>Hardware Specialist</sub>
+    </td>
+  </tr>
+</table>
+
 <div align="center">
   <a href="#-features">Features</a> •
   <a href="#-hardware-components">Hardware</a> •
